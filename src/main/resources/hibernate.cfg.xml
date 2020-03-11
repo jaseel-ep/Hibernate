@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hibernateDB</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.connection.pool_size">1</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <!-- hbm2ddl.aouto create-> drops the existing table and create a new one every time you run-->
+        <!-- <property name="hbm2ddl.auto">create</property>-->
+        <property name="hbm2ddl.auto">create</property>
+
+        <!--<mapping resource="book.hbm.xml" />-->
+        <mapping class="org.hibernate.DTO.UserDetails"/>
+        <mapping class="org.hibernate.DTO.TestDTO"/>
+    </session-factory>
+</hibernate-configuration>
