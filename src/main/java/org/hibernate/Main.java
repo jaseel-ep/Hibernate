@@ -1,9 +1,6 @@
 package org.hibernate;
 
-import org.hibernate.DTO.Address;
-import org.hibernate.DTO.Login;
-import org.hibernate.DTO.TestDTO;
-import org.hibernate.DTO.UserDetails;
+import org.hibernate.DTO.*;
 import org.hibernate.cfg.Configuration;
 
 import java.util.Date;
@@ -30,9 +27,13 @@ public class Main {
         userDetails.setJoinedDate(new Date());
         userDetails.setDescription("this is the description for the user.");
         userDetails.setPassWord("password");
-        userDetails.setHomeAddress(HomeAddress);
-        userDetails.setOfficeAddress(officeAddress);
+       // userDetails.setHomeAddress(HomeAddress);
+        //userDetails.setOfficeAddress(officeAddress);
         userDetails.setLogin(login);
+       /* userDetails.getListOfAdresses().add(officeAddress);
+        userDetails.getListOfAdresses().add(HomeAddress);*/
+       userDetails.getAddressList().add(officeAddress);
+       userDetails.getAddressList().add(HomeAddress);
 
 
         // SessionFactory is an heavy Object. Only one session factory should be there in an entire application.
@@ -53,22 +54,33 @@ public class Main {
         System.out.println(userDetails);*/
 
         // Using Try with resources
-        TestDTO test = new TestDTO();
-        test.setName("JAS");
+       /* TestDTO test = new TestDTO();
+        test.setName("JAS");*/
 
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(test);
+            session.save(userDetails);
             session.getTransaction().commit();
         }
-/*
+
+
+        Vehicle vehicle = new Vehicle();
+       // vehicle.setVehicleId(1);
+        vehicle.setVehicleName("KTM");
+
+        Driver driver = new Driver();
+      //  driver.setDriverId(1);
+        driver.setDriverName("Some name");
+        driver.setVehicle(vehicle);
+
+
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            UserDetails user = session.get(UserDetails.class, login);
-            System.out.println(user);
-
-        }*/
+           session.save(vehicle);  // We need to persist Vehicle object explicitly , even though there is a one to one mapping between Driver and Vehicle.
+           session.save(driver);
+           transaction.commit();
+        }
 
 
     }

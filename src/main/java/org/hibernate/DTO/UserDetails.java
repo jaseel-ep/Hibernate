@@ -1,13 +1,16 @@
 package org.hibernate.DTO;
 
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "USER_DETAILS")
 public class UserDetails {
 
+    @Transient
     @EmbeddedId
     private Login login;
   //  private Set<Address> listOfAddresses = new HashSet(); // here at left side you should not use HashSet , instead use interface
@@ -23,11 +26,21 @@ public class UserDetails {
   //  @Column(name = "USER_NAME")
     private String userName;
     @Column(name = "USER_ID")
-    //@Id  //Indicated userID is the Primary key
-    //@GeneratedValue (strategy = GenerationType.AUTO) // To automatically generate primary Key. No need to set using the setter method now.
+    @Id  //Indicated userID is the Primary key
+    @GeneratedValue (strategy = GenerationType.AUTO) // To automatically generate primary Key. No need to set using the setter method now.
     private int userID;
 
-    @Embedded   //Works without @Embedded annotation here. Needs only @Embeddable in the Address class.
+   /* @ElementCollection
+    @JoinTable(name="USER_ADDRESS",joinColumns = @JoinColumn(name = "USER_ID"))
+    private Set <Address>listOfAdresses = new HashSet();*/
+
+   @ElementCollection
+   @JoinTable(name="USER_ADDRESS",joinColumns = @JoinColumn(name="USER_ID"))
+   @GenericGenerator(name = "increment-genarator",strategy = "increment")
+   @CollectionId(columns = {@Column(name="ADDRESS_ID")}, type =@Type(type = "long"), generator ="increment-genarator" )
+   private Collection<Address> addressList = new ArrayList();
+
+   /* @Embedded   //Works without @Embedded annotation here. Needs only @Embeddable in the Address class.
     @AttributeOverrides({
             @AttributeOverride(name = "street", column = @Column(name = "HOME_STREET")),
             @AttributeOverride(name = "pincode", column = @Column(name = "Home_PINCODE")),
@@ -40,7 +53,7 @@ public class UserDetails {
             @AttributeOverride(name = "pincode", column = @Column(name = "OFFICE_PINCODE")),
             @AttributeOverride(name = "city", column = @Column(name = "OFFICE_CITY"))
     })
-    private Address officeAddress;
+    private Address officeAddress;*/
 
     /* NOTE: Suppose we have two Address objects namely office address and home address. Then we cannot use @Embedded for both address, because
     address fields like Street , pincode.. cannot be added twice as a column in the same table. We will have to use @AttributeOverride
@@ -103,7 +116,14 @@ public class UserDetails {
         this.description = description;
     }
 
-    public Address getHomeAddress() {
+  /*  public Set getListOfAdresses() {
+        return listOfAdresses;
+    }
+
+    public void setListOfAdresses(Set listOfAdresses) {
+        this.listOfAdresses = listOfAdresses;
+    }*/
+    /*  public Address getHomeAddress() {
         return HomeAddress;
     }
 
@@ -117,6 +137,14 @@ public class UserDetails {
 
     public void setOfficeAddress(Address officeAddress) {
         this.officeAddress = officeAddress;
+    }*/
+
+    public Collection getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(Collection addressList) {
+        this.addressList = addressList;
     }
 
     @Override
@@ -125,8 +153,8 @@ public class UserDetails {
                 "login=" + login +
                 ", userName='" + userName + '\'' +
                 ", userID=" + userID +
-                ", HomeAddress=" + HomeAddress +
-                ", officeAddress=" + officeAddress +
+               /* ", HomeAddress=" + HomeAddress +
+                ", officeAddress=" + officeAddress +*/
                 ", joinedDate=" + joinedDate +
                 ", description='" + description + '\'' +
                 ", passWord='" + passWord + '\'' +

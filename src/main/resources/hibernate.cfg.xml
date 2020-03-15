@@ -18,6 +18,8 @@
 
         <!--<mapping resource="book.hbm.xml" />-->
         <mapping class="org.hibernate.DTO.UserDetails"/>
-        <mapping class="org.hibernate.DTO.TestDTO"/>
+        <mapping class="org.hibernate.DTO.Driver"/>
+        <mapping class="org.hibernate.DTO.Vehicle"/>
+
     </session-factory>
 </hibernate-configuration>
