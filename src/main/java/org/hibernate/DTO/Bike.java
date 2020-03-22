@@ -1,9 +1,8 @@
 package org.hibernate.DTO;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 public class Bike {
@@ -11,9 +10,12 @@ public class Bike {
     @Id
     private int bikeNumber;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name="BikeUser_ID")
-    private BikeUser bikeUser;
+    private BikeUser bikeUser;*/
+
+    @ManyToMany(mappedBy = "bike")
+    private Collection<BikeUser> listOfBikeUsers = new ArrayList<>();
 
     public String getBikeName() {
         return bikeName;
@@ -31,11 +33,19 @@ public class Bike {
         this.bikeNumber = bikeNumber;
     }
 
-    public BikeUser getBikeUser() {
+   /* public BikeUser getBikeUser() {
         return bikeUser;
     }
 
     public void setBikeUser(BikeUser bikeUser) {
         this.bikeUser = bikeUser;
+    }*/
+
+    public Collection<BikeUser> getListOfBikeUsers() {
+        return listOfBikeUsers;
+    }
+
+    public void setListOfBikeUsers(Collection<BikeUser> listOfBikeUsers) {
+        this.listOfBikeUsers = listOfBikeUsers;
     }
 }

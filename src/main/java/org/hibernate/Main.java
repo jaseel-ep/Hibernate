@@ -82,6 +82,43 @@ public class Main {
            transaction.commit();
         }
 
+        Bike bike1 = new Bike();
+        Bike bike2 = new Bike();
+        bike1.setBikeName("KTM");
+
+        bike1.setBikeNumber(100);
+        bike2.setBikeName("Ducati");
+        bike2.setBikeNumber(999);
+
+        BikeUser bikeUser = new BikeUser();
+        bikeUser.setUserId(1);
+        bikeUser.setUserName("Biker");
+        bikeUser.getBike().add(bike1);
+        bikeUser.getBike().add(bike2);
+
+        BikeUser bikeUser1 = new BikeUser();
+        bikeUser1.setUserName("second user");
+        bikeUser1.setUserId(2);
+        bikeUser1.getBike().add(bike1);
+        bikeUser1.getBike().add(bike2);
+       /* bike1.setBikeUser(bikeUser);
+        bike2.setBikeUser(bikeUser);*/
+       bike1.getListOfBikeUsers().add(bikeUser);
+       bike2.getListOfBikeUsers().add(bikeUser);
+       bike1.getListOfBikeUsers().add(bikeUser1);
+       bike2.getListOfBikeUsers().add(bikeUser1);
+
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(bike1);  // We need to persist Bike object explicitly , even though there is a  mapping between Bike and BikeUser
+           // session.save(bike2);
+            session.persist(bikeUser);
+            session.persist(bikeUser1);
+            transaction.commit();
+
+            // One to Many mapping creates a third table with id's from both table which maps bikeUser to bike
+        }
+
 
     }
 

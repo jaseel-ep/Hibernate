@@ -20,6 +20,12 @@
         <mapping class="org.hibernate.DTO.UserDetails"/>
         <mapping class="org.hibernate.DTO.Driver"/>
         <mapping class="org.hibernate.DTO.Vehicle"/>
+        <mapping class="org.hibernate.DTO.Bike"/>
+        <mapping class="org.hibernate.DTO.BikeUser"/>
+        <mapping class="org.hibernate.Inheritance.InheritenceVehicle"/>
+        <mapping class="org.hibernate.Inheritance.TwoWheeler"/>
+        <mapping class="org.hibernate.Inheritance.FourWheeler"/>
+
 
     </session-factory>
 </hibernate-configuration>
