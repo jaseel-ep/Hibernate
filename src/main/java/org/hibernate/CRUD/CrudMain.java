@@ -12,6 +12,7 @@ public class CrudMain {
         /*
         CRUD OPERATIONS
          */
+        test
 
       /*   Subjects subjects1 = new Subjects();
         subjects1.setSubject("Math");
