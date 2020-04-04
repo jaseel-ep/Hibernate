@@ -2,8 +2,18 @@ package org.hibernate;
 
 import org.hibernate.DTO.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 
+import javax.jnlp.UnavailableServiceException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -119,6 +129,35 @@ public class Main {
             // One to Many mapping creates a third table with id's from both table which maps bikeUser to bike
         }
 
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query= session.createQuery("select userName,userID from org.hibernate.DTO.UserDetails");
+        List<Object[]> list = query.list();
+        Object[] o = list.get(0);
+        String string = (String) o[0];
+        Integer id = (Integer) o[1];
+        System.out.println(string);
+        System.out.println(id);
+        session.close();
+        //  list.stream().forEach(user ->System.err.println(user));
+
+        // Criteria API
+
+        Session sess = sessionFactory.openSession();
+        Criteria criteria = sess.createCriteria(UserDetails.class);
+        criteria.add(Restrictions.eq("userID",1));
+        List list1 = criteria.list();
+        UserDetails userDet=(UserDetails)list1.get(0);
+        System.err.println("------------------------ CRITERIA API");
+        System.out.println(userDet.getUserName());
+        sess.close();
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("UserDetails");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<UserDetails> criteria1 = criteriaBuilder.createQuery(UserDetails.class);
+        Root<UserDetails> root = criteria1.from(UserDetails.class);
+        criteria1.select(root);
 
     }
 

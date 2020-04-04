@@ -16,6 +16,14 @@
         <!-- <property name="hbm2ddl.auto">create</property>-->
         <property name="hbm2ddl.auto">create</property>
 
+        <!--Enabling second level cache -->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+
+
         <!--<mapping resource="book.hbm.xml" />-->
         <mapping class="org.hibernate.DTO.UserDetails"/>
         <mapping class="org.hibernate.DTO.Driver"/>
@@ -25,6 +33,10 @@
         <mapping class="org.hibernate.Inheritance.InheritenceVehicle"/>
         <mapping class="org.hibernate.Inheritance.TwoWheeler"/>
         <mapping class="org.hibernate.Inheritance.FourWheeler"/>
+        <mapping class="org.hibernate.CRUD.Student"/>
+        <mapping class="org.hibernate.CRUD.Subjects"/>
+        <mapping class="org.hibernate.HQL.HqlUser"/>
+        <mapping class="org.hibernate.CachePractice.CacheTable"/>
 
 
     </session-factory>
